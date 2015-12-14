@@ -1,0 +1,5 @@
+= FayeRailsPrivate
+
+TODO: Write description
+
+This project rocks and uses MIT-LICENSE.
