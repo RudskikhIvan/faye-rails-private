@@ -21,6 +21,10 @@ module FayeRailsPrivate
       end
     end
 
+    config.message_timestamp = proc do |message|
+      message['auth']['timestamp']
+    end
+
   end
 
   def self.generate_token(options = {})
@@ -59,7 +63,7 @@ module FayeRailsPrivate
   private
 
   def self.token_expired?(message)
-    timestamp = message['auth']['timestamp'] rescue 0
+    timestamp = self.config.message_timestamp.call(message) rescue 0
     timestamp < ((Time.now.to_f - config.token_expiration)*1000).round if config.token_expiration
   end
 
