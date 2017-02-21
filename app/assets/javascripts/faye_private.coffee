@@ -22,9 +22,14 @@ window.FayePrivate =
     delete params.channel
     FayePrivate.subscriptions[channel] = params
 
-FayePrivate.Client = Faye.Class Faye.Client,
+FayePrivate.Client = ->
+  return @ if !@initialize
+  @initialize.apply(@, arguments) || @;
 
-  initialize: (endpoint, options)->
+for method in Object.getOwnPropertyNames(Faye.Client.prototype)
+  FayePrivate.Client.prototype[method] = Faye.Client.prototype[method]
+
+FayePrivate.Client::initialize = (endpoint, options)->
     Faye.Client::initialize.call @, endpoint, options
     @addExtension FayePrivate.fayeExtension
     @
